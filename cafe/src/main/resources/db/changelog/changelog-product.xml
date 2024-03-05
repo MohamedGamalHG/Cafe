@@ -10,20 +10,20 @@
             <column name="Id" type="Integer">
                 <constraints nullable="false" primaryKey="true" unique="true"/>
             </column>
-
             <column name="Name" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="Price" type="double">
                 <constraints nullable="false"/>
             </column>
-
             <column name="ImagePath" type="varchar(255)">
                 <constraints nullable="true"/>
             </column>
-
             <column name="Description" type="varchar(255)">
                 <constraints nullable="true"/>
+            </column>
+            <column name="category_id" type="Integer">
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
