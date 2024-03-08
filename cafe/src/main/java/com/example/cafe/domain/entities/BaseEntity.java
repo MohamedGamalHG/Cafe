@@ -21,8 +21,8 @@ public class BaseEntity {
     private String Name;
 
     @CreationTimestamp
-    private LocalDateTime dateCreated;
+    private LocalDateTime created_at;
 
     @UpdateTimestamp
-    private LocalDateTime lastUpdated;
+    private LocalDateTime updated_at;
 }

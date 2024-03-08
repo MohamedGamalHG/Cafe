@@ -30,14 +30,12 @@ public class ProductController {
     @PostMapping("/insert")
     public ResponseEntity<?> insert(@RequestBody Product product)
     {
-        boolean t = productService.insert(product);
-        return ResponseEntity.ok(t);
+        return ResponseEntity.ok(productService.insert(product));
     }
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody Product product)
     {
-        boolean t = productService.update(product);
-        return ResponseEntity.ok(t);
+        return ResponseEntity.ok(productService.update(product));
     }
 
     @DeleteMapping("/delete/{id}")
