@@ -30,14 +30,12 @@ public class CategoryController {
     @PostMapping("/insert")
     public ResponseEntity<?> insert(@RequestBody Category category)
     {
-        boolean t = categoryService.insert(category);
-        return ResponseEntity.ok(t);
+        return ResponseEntity.ok( categoryService.insert(category));
     }
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody Category category)
     {
-        boolean t = categoryService.update(category);
-        return ResponseEntity.ok(t);
+        return ResponseEntity.ok(categoryService.update(category));
     }
 
     @DeleteMapping("/delete/{id}")

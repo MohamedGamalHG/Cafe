@@ -3,6 +3,7 @@ package com.example.cafe.services;
 import com.example.cafe.domain.dtos.Product;
 import com.example.cafe.domain.entities.CategoryJpa;
 import com.example.cafe.domain.entities.ProductJpa;
+import com.example.cafe.handlingException.RecordNotComplete;
 import com.example.cafe.handlingException.RecordNotFoundException;
 import com.example.cafe.mappers.ProductDtoConverter;
 import com.example.cafe.repositories.CategoryRepo;
@@ -51,22 +52,22 @@ public class ProductService {
             throw new RecordNotFoundException("This Record Is Not Found Of Id = "+id);
     }
 
-    public boolean insert(Product product)
+    public ProductJpa insert(Product product)
     {
         try {
             ProductJpa ProductJpa = productDtoConverter.convert(product);
             CategoryJpa categoryJpa = categoryRepo.findById(product.getCategoryId()).get();
             ProductJpa.setCategoryJpa(categoryJpa);
-            ProductJpa check = ProductRepo.save(ProductJpa);
-            return true;
+            ProductJpa productJpaInserted = ProductRepo.save(ProductJpa);
+            return productJpaInserted;
         }catch (Exception ex)
         {
             logger.error(ex.getMessage());
-            return false;
+            throw new RecordNotComplete("This Record Is Not Inserted");
         }
     }
 
-    public boolean update(Product product)
+    public ProductJpa update(Product product)
     {
         try {
             Optional<ProductJpa> ProductJpa = ProductRepo.findById(product.getId());
@@ -75,15 +76,15 @@ public class ProductService {
             if (ProductJpa.isPresent() && categoryJpa.isPresent()) {
                 ProductJpa ProductJpaUpdate = productDtoConverter.convert(product);
                 ProductJpaUpdate.setCategoryJpa(categoryJpa.get());
-                ProductJpa check = ProductRepo.save(ProductJpaUpdate);
-                return true;
+                ProductJpa productJpaUpdated = ProductRepo.save(ProductJpaUpdate);
+                return productJpaUpdated;
             }
             else
                 throw new RecordNotFoundException("This Record Is Not Found Of Id = "+product.getId());
         }catch (Exception ex)
         {
             logger.error(ex.getMessage());
-            return false;
+            throw new RecordNotComplete("This Record Is Not Updated");
         }
     }
     public void delete(Long id)

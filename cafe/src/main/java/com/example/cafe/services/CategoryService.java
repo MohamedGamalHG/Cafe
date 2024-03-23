@@ -1,6 +1,7 @@
 package com.example.cafe.services;
 
 
+import com.example.cafe.handlingException.RecordNotComplete;
 import com.example.cafe.handlingException.RecordNotFoundException;
 import com.example.cafe.mappers.CategoryDtoConverter;
 import com.example.cafe.repositories.CategoryRepo;
@@ -42,34 +43,34 @@ public class CategoryService {
             throw new RecordNotFoundException("This Record Is Not Found Of Id = "+id);
     }
 
-    public boolean insert(Category category)
+    public CategoryJpa insert(Category category)
     {
         try {
             CategoryJpa categoryJpa = categoryDtoConverter.convert(category);
-            CategoryJpa check = categoryRepo.save(categoryJpa);
-            return true;
+            CategoryJpa categoryJpaInserted = categoryRepo.save(categoryJpa);
+            return categoryJpaInserted;
         }catch (Exception ex)
         {
             logger.error(ex.getMessage());
-            return false;
+            throw new RecordNotComplete("This Record Is Not Inserted");
         }
     }
 
-    public boolean update(Category category)
+    public CategoryJpa update(Category category)
     {
         try {
             Optional<CategoryJpa> categoryJpa = categoryRepo.findById(category.getId());
             if (categoryJpa.isPresent()) {
                 CategoryJpa categoryJpaUpdate = categoryDtoConverter.convert(category);
-                CategoryJpa check = categoryRepo.save(categoryJpaUpdate);
-                return true;
+                CategoryJpa categoryJpaUpdated = categoryRepo.save(categoryJpaUpdate);
+                return categoryJpaUpdated;
             }
             else
                 throw new RecordNotFoundException("This Record Is Not Found Of Id = "+category.getId());
         }catch (Exception ex)
         {
             logger.error(ex.getMessage());
-            return false;
+            throw new RecordNotComplete("This Record Is Not Updated");
         }
     }
     public void delete(Long id)
